@@ -79,10 +79,13 @@ class BookService {
         });
     }
 
-    static deleteBook(bookId) {
+    static deleteBook(bookId, author) {
         return new Promise(async (resolve, reject) => {
             try {
-                const book = await Book.findById(bookId);
+                const book = await Book.findone({
+                    _id: bookId,
+                    author
+                });
 
                 if (book) {
                     return reject({ statusCode: 404, msg: MSG_TYPES.NOT_FOUND });
