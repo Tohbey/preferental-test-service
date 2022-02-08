@@ -5,9 +5,8 @@ const cors = require('cors')
 const winston = require("winston");
 const Table = require('cli-table');
 const listAllRoutes = require('express-list-endpoints');
-require('dotenv').config()
+require('dotenv')
 
-const MongoStore = require('connect-mongo')
 
 const app = express();
 app.use(morgan('tiny'));

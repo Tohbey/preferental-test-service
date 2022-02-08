@@ -1,19 +1,19 @@
 const router = require("express").Router();
 const controller = require("../controllers");
-const {ensureLoggedIn} = require("connect-ensure-login");
+const { Auth, ROLES, hasRole } = require('../middlewares/auth');
 
-router.get("/", ensureLoggedIn("/login"), controller.user.getAllUser)
+router.get("/", Auth, controller.user.getAllUser)
 
-router.get("/me", ensureLoggedIn("/login"), controller.user.getMe)
+router.get("/me", Auth, controller.user.getMe)
 
-router.get("/:id", ensureLoggedIn("/login"), controller.user.getUser)
+router.get("/:id", Auth, controller.user.getUser)
 
 router.post("/", controller.user.createUser)
 
 router.get('/verify/:email/:token', controller.user.confirmEmail)
 
-router.patch("/", ensureLoggedIn("/login"), controller.user.updateUser)
+router.patch("/", Auth, controller.user.updateUser)
 
-router.patch("/me", ensureLoggedIn("/login"), controller.user.teminateMe)
+router.patch("/me", Auth, controller.user.teminateMe)
 
 module.exports = router
