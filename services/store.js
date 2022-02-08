@@ -1,10 +1,25 @@
 const Store = require("../models/store");
+const { MSG_TYPES } = require("../constant/types");
 
 class StoreService {
+    
+    
     static create(body) {
         return new Promise(async (resolve, reject) => {
             try {
-            } catch (error) { 
+                const store = await Store.findOne({
+                    storeKeeper: body.storeKeeper,
+                    name: body.name,
+                });
+
+                if (store) {
+                    return reject({ statusCode: 404, msg: MSG_TYPES.EXIST });
+                }
+
+                const createStore = await Store.create(body);
+
+                resolve(createStore);
+            } catch (error) {
                 return reject({ statusCode: 500, msg: MSG_TYPES.SERVER_ERROR, error });
             }
         });
@@ -13,23 +28,28 @@ class StoreService {
     static getStores(skip, pageSize, filter = {}) {
         return new Promise(async (resolve, reject) => {
             try {
-            } catch (error) { 
+                const stores = await Store.find(filter).skip(skip).limit(pageSize);
+
+                const total = await Store.find(filter).countDocuments();
+
+                resolve({ stores, total });
+            } catch (error) {
                 return reject({ statusCode: 500, msg: MSG_TYPES.SERVER_ERROR, error });
             }
         });
     }
 
-    // static getStoreBooks(skip, pageSize, filter = {}) {
-    //     return new Promise(async (resolve, reject) => {
-    //         try {
-    //         } catch (error) { }
-    //     });
-    // }
-
-    static getStore(bookId) {
+    static getStore(filter) {
         return new Promise(async (resolve, reject) => {
             try {
-            } catch (error) { 
+                const store = await Store.findOne(filter);
+
+                if (store) {
+                    return reject({ statusCode: 404, msg: MSG_TYPES.NOT_FOUND });
+                }
+
+                resolve(store);
+            } catch (error) {
                 return reject({ statusCode: 500, msg: MSG_TYPES.SERVER_ERROR, error });
             }
         });
@@ -38,7 +58,21 @@ class StoreService {
     static updateStore(storeObject, storeKeeper, storeId) {
         return new Promise(async (resolve, reject) => {
             try {
-            } catch (error) { 
+                const store = await Store.findOne({
+                    _id: storeId,
+                    storeKeeper,
+                });
+
+                if (store) {
+                    return reject({ statusCode: 404, msg: MSG_TYPES.NOT_FOUND });
+                }
+
+                await store.updateOne({
+                    $set: storeObject,
+                });
+
+                resolve(store);
+            } catch (error) {
                 return reject({ statusCode: 500, msg: MSG_TYPES.SERVER_ERROR, error });
             }
         });
@@ -47,12 +81,20 @@ class StoreService {
     static deleteStore(storeId) {
         return new Promise(async (resolve, reject) => {
             try {
-            } catch (error) { 
+                const store = await Store.findById(storeId);
+
+                if (store) {
+                    return reject({ statusCode: 404, msg: MSG_TYPES.NOT_FOUND });
+                }
+
+                await store.delete();
+
+                resolve({ msg: MSG_TYPES.DELETED });
+            } catch (error) {
                 return reject({ statusCode: 500, msg: MSG_TYPES.SERVER_ERROR, error });
             }
         });
     }
 }
-
 
 module.exports = StoreService;
