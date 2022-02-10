@@ -161,7 +161,7 @@ class UserService {
                     return reject({ statusCode: 404, msg: MSG_TYPES.NOT_FOUND })
                 }
 
-                currentUser.status = "terminated";
+                currentUser.status = "suspended";
                 await currentUser.save();
 
                 resolve({ msg: MSG_TYPES.DELETED })
