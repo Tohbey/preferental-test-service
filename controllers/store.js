@@ -11,7 +11,7 @@ const StoreService = require("../services/store");
 */
 exports.createStore = async (req, res, next) => {
     try {
-        req.body.bookKeeper = req.user._id;
+        req.body.storeKeeper = req.user._id;
 
         const { error } = validateStore(req.body);
         if (error) return JsonResponse(res, 400, error.details[0]);
@@ -20,6 +20,7 @@ exports.createStore = async (req, res, next) => {
 
         JsonResponse(res, 201, MSG_TYPES.CREATED, newStore);
     } catch (error) {
+        console.log(error);
         JsonResponse(res, error.statusCode, error.msg)
         next(error)
     }
@@ -132,5 +133,27 @@ exports.deleteStore = async (req, res, next) => {
     } catch (error) {
         JsonResponse(res, error.statusCode, error.msg)
         next(error)
+    }
+}
+
+
+/** 
+ * approve Store
+ * @param {*} req
+ * @param {*} res
+*/
+exports.approveOrDisapproveStore = async (req, res, next) => {
+    try {
+        const storeId = req.params.storeId;
+        const storeObect = {
+            status: req.body.status
+        }
+        
+        let {store, msg} = await StoreService.approveOrDisapproveStore(storeId, storeObect);
+
+        JsonResponse(res, 200, MSG_TYPES.UPDATED, store, msg);
+    } catch (error) {
+        JsonResponse(res, error.statusCode, error.msg);
+        next(error);
     }
 }

@@ -2,7 +2,7 @@ const router = require("express").Router();
 const controller = require("../controllers");
 const { Auth, ROLES, hasRole } = require('../middlewares/auth');
 
-router.get("/", Auth, controller.user.getAllUser)
+router.get("/", [Auth, hasRole(ROLES.ADMIN)], controller.user.getAllUser)
 
 router.get("/me", Auth, controller.user.getMe)
 

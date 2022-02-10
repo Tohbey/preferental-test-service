@@ -11,7 +11,7 @@ function validateStore(body){
             twitter: Joi.string().required(),
             email: Joi.string().required(),
         }),
-        bookKeeper: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+        storeKeeper: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
     });
 
     return storeSchema.validate(body)
