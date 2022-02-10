@@ -34,16 +34,14 @@ exports.createUser = async (req, res, next) => {
  * @param {*} req
  * @param {*} res
 */
-exports.confirmEmail = async (req, res, next) => {
+exports.verify = async (req, res, next) => {
     try {
         const token = req.params.token
         const email = req.params.email
 
-        const msg =  await UserService.confirmEmail(email, token)
+        let msg =  await UserService.confirmEmail(email, token)
 
-        res.redirect('http://localhost:4200/login');
-
-        JsonResponse(res, 200, MSG_TYPES.ACCOUNT_VERIFIED);
+        JsonResponse(res, 200, msg);
     } catch (error) {
         console.log({error})
         JsonResponse(res, error.statusCode, error.msg)
