@@ -31,5 +31,5 @@ table.push({ Endpoints: 'Methods' }, ...routesList);
 console.log(`THESE ARE THE AVAILABLE ENDPOINTS: \n${table.toString()}`);
 
 app.listen(port, () => {
-    winston.info(`----Kuadratick-Service is running on http://localhost:${port}--------`)
+    winston.info(`----Preferental-Test-Service is running on http://localhost:${port}--------`)
 })
