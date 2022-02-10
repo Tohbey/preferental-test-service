@@ -1,7 +1,12 @@
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
+
+require("dotenv").config();
+const jwtSecret = process.env.JWT_SECRET;
+const expiry = process.env.expireIn;
 
 const userSchema = new mongoose.Schema(
-    {   
+    {
         email: {
             type: String,
             index: true,
@@ -11,7 +16,7 @@ const userSchema = new mongoose.Schema(
         name: {
             type: String,
             maxlength: 100,
-            required: true
+            required: true,
         },
         phoneNumber: {
             type: String,
@@ -26,7 +31,7 @@ const userSchema = new mongoose.Schema(
             type: String,
             enum: ["active", "suspended", "inactive"],
             default: "active",
-            required: true
+            required: true,
         },
         password: {
             type: String,
@@ -34,35 +39,49 @@ const userSchema = new mongoose.Schema(
         },
         rememberToken: {
             token: {
-              type: String,
-              default: null,
+                type: String,
+                default: null,
             },
             expiredDate: {
-              type: Date,
-              default: null,
+                type: Date,
+                default: null,
             },
         },
         passwordRetrive: {
             resetPasswordToken: {
-              type: String,
-              default: null
+                type: String,
+                default: null,
             },
             resetPasswordExpires: {
-              type: Date,
-              default: null
-            }
+                type: Date,
+                default: null,
+            },
         },
-        role:{
+        role: {
             type: String,
-            enum: ["admin", "user", "book_keeper", 'author'],
+            enum: ["admin", "user", "book_keeper", "author"],
             default: "user",
             required: true,
-        }
+        },
     },
     {
         timestamps: true,
     }
 );
+
+userSchema.methods.generateAuthToken = function () {
+    const token = jwt.sign(
+        {
+            _id: this._id,
+            email: this.email,
+            role: this.role,
+        },
+        jwtSecret,
+        { expiresIn: expiry }
+    );
+
+    return token;
+};
 
 const User = mongoose.model("User", userSchema);
 
