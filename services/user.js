@@ -65,9 +65,9 @@ class UserService {
 
                 user.isVerified = true;
                 user.rememberToken = null
-                user.save();
+                await user.save();
 
-                resolve({ msg: MSG_TYPES.ACCOUNT_VERIFIED });
+                resolve(MSG_TYPES.ACCOUNT_VERIFIED );
             } catch (error) {
                 reject({ statusCode: 500, msg: MSG_TYPES.SERVER_ERROR, error })
             }

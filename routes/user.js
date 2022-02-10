@@ -10,7 +10,7 @@ router.get("/:id", Auth, controller.user.getUser)
 
 router.post("/", controller.user.createUser)
 
-router.get('/verify/:email/:token', controller.user.confirmEmail)
+router.get('/verify/:email/:token', controller.user.verify)
 
 router.patch("/", Auth, controller.user.updateUser)
 
