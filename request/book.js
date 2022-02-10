@@ -7,7 +7,7 @@ function validateBook(body){
         description:Joi.string().required(),
         book:Joi.string().required(),
         isbn:Joi.string().required(),
-        releaseDate:Joi.date().required(),
+        releaseDate:Joi.string().required(),
         author: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
     });
 

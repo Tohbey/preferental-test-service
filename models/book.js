@@ -5,16 +5,15 @@ const bookSchema = new mongoose.Schema(
     {   
         name: {
             type: String,
-            maxlength: 100,
+            maxlength: 255,
             required: true
         },
         description: {
             type: String,
-            maxlength: 225,
             index: true,
         },
         releaseDate: {
-            type: Date,
+            type: String,
             required: true,
         },
         book: {

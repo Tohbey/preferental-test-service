@@ -20,6 +20,7 @@ exports.createBook= async (req, res, next) => {
 
         JsonResponse(res, 201, MSG_TYPES.CREATED, newBook);
     } catch (error) {
+        console.log(error)
         JsonResponse(res, error.statusCode, error.msg)
         next(error)
     }
@@ -106,6 +107,7 @@ exports.updateBook = async (req, res, next) => {
     try {
         const author = req.user._id;
         const bookId = req.params.bookId;
+        console.log(author, bookId)
 
         await BookService.updateBook(req.body, author, bookId);
 

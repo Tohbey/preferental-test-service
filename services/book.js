@@ -43,9 +43,9 @@ class BookService {
     static getBook(filter) {
         return new Promise(async (resolve, reject) => {
             try {
-                const book = await Book.findOne(filter);
+                const book = await Book.findOne(filter).populate('author');
 
-                if (book) {
+                if (!book) {
                     return reject({ statusCode: 404, msg: MSG_TYPES.NOT_FOUND });
                 }
 
@@ -63,8 +63,8 @@ class BookService {
                     _id: bookId,
                     author,
                 });
-
-                if (book) {
+                console.log(book)
+                if (!book) {
                     return reject({ statusCode: 404, msg: MSG_TYPES.NOT_FOUND });
                 }
 
@@ -82,12 +82,12 @@ class BookService {
     static deleteBook(bookId, author) {
         return new Promise(async (resolve, reject) => {
             try {
-                const book = await Book.findone({
+                const book = await Book.findOne({
                     _id: bookId,
                     author
                 });
 
-                if (book) {
+                if (!book) {
                     return reject({ statusCode: 404, msg: MSG_TYPES.NOT_FOUND });
                 }
 
