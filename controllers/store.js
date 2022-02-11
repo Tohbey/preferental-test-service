@@ -138,7 +138,7 @@ exports.deleteStore = async (req, res, next) => {
 
 
 /** 
- * approve Store
+ * approve or disapprove Store
  * @param {*} req
  * @param {*} res
 */
@@ -148,11 +148,50 @@ exports.approveOrDisapproveStore = async (req, res, next) => {
         const storeObect = {
             status: req.body.status
         }
-        
-        let {store, msg} = await StoreService.approveOrDisapproveStore(storeId, storeObect);
+
+        let { store, msg } = await StoreService.approveOrDisapproveStore(storeId, storeObect);
 
         JsonResponse(res, 200, MSG_TYPES.UPDATED, store, msg);
     } catch (error) {
+        JsonResponse(res, error.statusCode, error.msg);
+        next(error);
+    }
+}
+
+
+/** 
+ * add book to store
+ * @param {*} req
+ * @param {*} res
+*/
+exports.addBook = async (req, res, next) => {
+    try {
+        const storeId = req.params.storeId;
+
+        let store = await StoreService.addBook(storeId, req.body)
+
+        JsonResponse(res, 200, MSG_TYPES.UPDATED, store);
+    } catch (error) {
+        JsonResponse(res, error.statusCode, error.msg);
+        next(error);
+    }
+}
+
+
+/** 
+ * remove book to store
+ * @param {*} req
+ * @param {*} res
+*/
+exports.removeBook = async (req, res, next) => {
+    try {
+        const storeId = req.params.storeId;
+
+        let store = await StoreService.removeBook(storeId, req.body.book)
+
+        JsonResponse(res, 200, MSG_TYPES.UPDATED, store);
+    } catch (error) {
+        console.log(error);
         JsonResponse(res, error.statusCode, error.msg);
         next(error);
     }

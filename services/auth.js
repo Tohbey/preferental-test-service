@@ -169,6 +169,11 @@ class AuthService {
         })
     }
 
+    /**
+     * Reset Password
+     * @param {Object} token 
+     * @param {Objec} email 
+    */
     static reset(email, token) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -191,6 +196,10 @@ class AuthService {
         })
     }
 
+    /**
+     * Reset Password
+     * @param {Object} body 
+    */
     static resetPassword(body) {
         return new Promise(async (resolve, reject) => {
             try {

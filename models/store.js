@@ -3,30 +3,45 @@ const objectId = mongoose.Types.ObjectId;
 
 const contactSchema = new mongoose.Schema(
     {
-        phoneNumber:{
+        phoneNumber: {
             type: String,
             required: true
         },
-        twitter:{
+        twitter: {
             type: String,
             required: true
         },
-        email:{
+        email: {
             type: String,
             required: true
         }
     }
 )
 
+const books = new mongoose.Schema(
+    {
+        book: {
+            type: objectId,
+            required: true,
+            ref: 'Book'
+        },
+        availableCopies: {
+            type: Number,
+            required: true,
+            min: 0
+        }
+    }
+)
+
 const storeSchema = new mongoose.Schema(
-    {   
+    {
         name: {
             type: String,
             maxlength: 100,
             required: true
         },
-        status:{
-            type:String,
+        status: {
+            type: String,
             default: 'not-approved',
             enum: ["approved", "not-approved", "disapproved"],
             required: true
@@ -35,23 +50,17 @@ const storeSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        storeKeeper:{
+        storeKeeper: {
             type: objectId,
             required: true,
             ref: 'User'
         },
-        contactDetail:contactSchema,
-        description:{
+        contactDetail: contactSchema,
+        description: {
             type: String,
             required: true
         },
-        books:[
-            {
-                type: objectId,
-                required: true,
-                ref: 'Book'
-            }
-        ]
+        books: [books]
     },
     {
         timestamps: true,

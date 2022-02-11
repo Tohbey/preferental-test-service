@@ -4,7 +4,10 @@ const { MSG_TYPES } = require("../constant/types");
 
 class BookService {
 
-
+    /**
+        * Create book
+        * @param {Object} body request body object
+    */
     static create(body) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -26,6 +29,13 @@ class BookService {
         });
     }
 
+    
+    /**
+        * Get books
+        * @param {Object} skip 
+        * @param {Object} pageSize 
+        * @param {Object} filter 
+    */
     static getBooks(skip, pageSize, filter = {}) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -40,10 +50,15 @@ class BookService {
         });
     }
 
+
+    /**
+        * Get book
+        * @param {Object} filter
+    */
     static getBook(filter) {
         return new Promise(async (resolve, reject) => {
             try {
-                const book = await Book.findOne(filter).populate('author');
+                const book = await Book.findOne(filter).populate('author').select('-password -passwordRetrive -rememberToken');
 
                 if (!book) {
                     return reject({ statusCode: 404, msg: MSG_TYPES.NOT_FOUND });
@@ -57,6 +72,11 @@ class BookService {
     }
 
 
+    /**
+        * Delete book
+        * @param {Object} bookId
+        * @param {Object} author
+    */
     static deleteBook(bookId, author) {
         return new Promise(async (resolve, reject) => {
             try {

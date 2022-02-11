@@ -16,5 +16,8 @@ router.patch('/status/:storeId', [Auth, hasRole(ROLES.ADMIN)], controller.store.
 
 router.delete('/:storeId', [Auth, hasRole(ROLES.STORE_KEEPER, ROLES.ADMIN)], controller.store.deleteStore);
 
+router.patch('/add/:storeId', [Auth, hasRole(ROLES.STORE_KEEPER)], controller.store.addBook);
+
+router.patch('/remove/:storeId', [Auth, hasRole(ROLES.STORE_KEEPER)], controller.store.removeBook);
 
 module.exports = router;
