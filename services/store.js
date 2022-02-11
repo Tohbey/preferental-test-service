@@ -153,7 +153,11 @@ class StoreService {
     });
   }
 
-
+  /**
+    * Adding Book to  Store
+    * @param {Object} storeObject 
+    * @param {Object} storeId 
+  */
   static addBook(storeId, body) {
     return new Promise(async (resolve, reject) => {
       try {
@@ -181,6 +185,11 @@ class StoreService {
     })
   }
 
+   /**
+    * Removeing book from Store
+    * @param {Object} storeObject 
+    * @param {Object} storeId 
+   */
   static removeBook(storeId, bookId) {
     return new Promise(async (resolve, reject) => {
       try {
