@@ -9,7 +9,7 @@ const BookService = require("../services/book");
  * @param {*} req
  * @param {*} res
 */
-exports.createBook= async (req, res, next) => {
+exports.createBook = async (req, res, next) => {
     try {
         req.body.author = req.user._id;
 
@@ -97,27 +97,6 @@ exports.getBook = async (req, res, next) => {
         next(error)
     }
 }
-
-/** 
- * update Book
- * @param {*} req
- * @param {*} res
-*/
-exports.updateBook = async (req, res, next) => {
-    try {
-        const author = req.user._id;
-        const bookId = req.params.bookId;
-        console.log(author, bookId)
-
-        await BookService.updateBook(req.body, author, bookId);
-
-        JsonResponse(res, 200, MSG_TYPES.UPDATED);
-    } catch (error) {
-        JsonResponse(res, error.statusCode, error.msg)
-        next(error)
-    }
-}
-
 
 /** 
  * delete Book

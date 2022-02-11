@@ -10,8 +10,6 @@ router.get('/author', Auth, controller.book.getBooksByAuthor);
 
 router.get('/:bookId', Auth, controller.book.getBook);
 
-router.patch('/:bookId', [Auth, hasRole(ROLES.AUTHOR)], controller.book.updateBook); //not working
-
 router.delete('/:bookId', [Auth, hasRole(ROLES.AUTHOR, ROLES.ADMIN)], controller.book.deleteBook);
 
 module.exports = router;

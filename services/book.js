@@ -56,28 +56,6 @@ class BookService {
         });
     }
 
-    static updateBook(bookObject, author, bookId) {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const book = await Book.findOne({
-                    _id: bookId,
-                    author,
-                });
-                console.log(book)
-                if (!book) {
-                    return reject({ statusCode: 404, msg: MSG_TYPES.NOT_FOUND });
-                }
-
-                await book.updateOne({
-                    $set: bookObject,
-                });
-
-                resolve(book);
-            } catch (error) {
-                return reject({ statusCode: 500, msg: MSG_TYPES.SERVER_ERROR, error });
-            }
-        });
-    }
 
     static deleteBook(bookId, author) {
         return new Promise(async (resolve, reject) => {
